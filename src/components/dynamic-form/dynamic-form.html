@@ -2,6 +2,16 @@
   <ion-card *ngSwitchCase="'none'">
     <ion-card-header style="text-align: center;">
       <h1>Dynamyc-D {{text}}</h1>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4></ion-col>
+          <ion-col col-4 style="text-align: center;">
+            <img src="assets/img/Duende.png" alt="">
+            <p> <small><a href="http://www.freepik.es/vector-gratis/icono-duende_765906.htm">Icono obtenido en Freepik</a></small></p>
+          </ion-col>
+          <ion-col col-4></ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="form" novalidate>
@@ -16,7 +26,7 @@
           <ion-item *ngSwitchCase="'textarea'" class="separador">
             <ion-label color="dark"  *ngIf="field.required"  floating>{{field.label}}**</ion-label>
             <ion-label color="dark"  *ngIf="!field.required"  floating>{{field.label}}</ion-label>
-            <ion-textarea class="d-input" style="height: 200px"   [formControlName]="field.name"></ion-textarea>
+            <ion-textarea class="d-input" autosize style="height: 200px"   [formControlName]="field.name"></ion-textarea>
           </ion-item>
           <!--select-->
           <div *ngSwitchCase="'select'" class="separador">
@@ -89,7 +99,17 @@
   </ion-card>
 
   <ion-card *ngSwitchCase="'Internet'">
-    Error de coneccion
+    <ion-card-content>
+      <ion-item>
+        <ion-avatar item-start>
+          <ion-icon name="sad" danger></ion-icon>
+        </ion-avatar>
+        <h2>Error de conexión</h2>
+        <p>Revisa tu conexión a la red</p>
+      </ion-item>
+    </ion-card-content>
+    
+    
   </ion-card>
 
 </div>

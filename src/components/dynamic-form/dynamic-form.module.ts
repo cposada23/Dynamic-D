@@ -4,9 +4,12 @@ import { DynamicForm } from './dynamic-form';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Autosize } from '../autosize/autosize';
+
 @NgModule({
   declarations: [
     DynamicForm,
+    Autosize 
   ],
   imports: [
     ReactiveFormsModule,
@@ -14,7 +17,8 @@ import { HttpModule } from '@angular/http';
     IonicPageModule.forChild(DynamicForm),
   ],
   exports: [
-    DynamicForm
+    DynamicForm,
+    Autosize
   ]
 })
 export class DynamicFormModule {}

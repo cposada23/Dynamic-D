@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {  LoadingController } from 'ionic-angular';
+import {  LoadingController, AlertController } from 'ionic-angular';
 import { RequestService } from '../../providers/request-service';
-/**
- * Generated class for the DynamicForm component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
+import { CheckboxValidator } from '../../providers/checkbox-validator';
 @Component({
   selector: 'dynamic-form',
   templateUrl: 'dynamic-form.html',
-  providers:[RequestService]
+  providers:[RequestService, CheckboxValidator]
 })
 export class DynamicForm  implements OnInit {
   
@@ -19,7 +14,7 @@ export class DynamicForm  implements OnInit {
   form: FormGroup;
   loading:any;
   error: string = "Internet";
-  constructor(private formBuilder: FormBuilder, private loadingController:LoadingController, private requestService: RequestService) { 
+  constructor(private alertController:AlertController, private checkValidator: CheckboxValidator, private formBuilder: FormBuilder, private loadingController:LoadingController, private requestService: RequestService) { 
     
   }
 
@@ -38,7 +33,8 @@ export class DynamicForm  implements OnInit {
         field['values'].forEach(value => {
           opciones[value] = new FormControl(false);
         });
-        group[field['name']] = new FormGroup(opciones, Validators.required);
+        group[field['name']] = field['required'] ?  this.formBuilder.group(opciones, {validator: this.checkValidator.validateCheckboxes}): new FormGroup(opciones);
+        //group[field['name']] =  new FormGroup(opciones);
       }
       
     });
@@ -61,6 +57,7 @@ export class DynamicForm  implements OnInit {
 
   send(){
     console.log("value", this.form.value);
+    this.showAlert(this.form.value);
   }
 
   presentLoading() {
@@ -69,6 +66,15 @@ export class DynamicForm  implements OnInit {
     });
 
     this.loading.present();
+  }
+
+  showAlert(message) {
+    let alert = this.alertController.create({
+      title: 'Datos ingresados',
+      message: message,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 
 

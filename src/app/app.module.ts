@@ -8,7 +8,6 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
 import { DynamicFormModule } from '../components/dynamic-form/dynamic-form.module';
-import { RequestService } from '../providers/request-service';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     SplashScreen,
-    RequestService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -1,0 +1,90 @@
+<ion-card>
+  <ion-card-header style="text-align: center;">
+    <h1>Dynamyc-D {{text}}</h1>
+  </ion-card-header>
+  <ion-card-content>
+    <form [formGroup]="form" novalidate>
+      <div *ngFor="let field of fields"  [ngSwitch]="field.type">
+        <!--text -->
+        <ion-item *ngSwitchCase="'text'">
+          <ion-label color="dark"  *ngIf="field.required"  floating>{{field.label}}**</ion-label>
+          <ion-label color="dark"  *ngIf="!field.required"  floating>{{field.label}}</ion-label>
+          <ion-input type="text" [formControlName]="field.name"></ion-input>
+        </ion-item>
+        <!--textarea -->
+        <ion-item *ngSwitchCase="'textarea'" >
+          <ion-label color="dark"  *ngIf="field.required"  floating>{{field.label}}**</ion-label>
+          <ion-label color="dark"  *ngIf="!field.required"  floating>{{field.label}}</ion-label>
+          <ion-textarea style="height: 200px"   [formControlName]="field.name"></ion-textarea>
+        </ion-item>
+        <!--select-->
+        <div *ngSwitchCase="'select'" class="separador">
+          <ion-item >
+            <ion-label color="dark"  *ngIf="field.required">{{field.label}}**</ion-label>
+            <ion-label color="dark"  *ngIf="!field.required">{{field.label}}</ion-label>
+            <ion-select [formControlName]="field.name" >
+              <ion-option *ngFor="let val of field.values">{{val}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <!--date -->
+        <div class="separador"   *ngSwitchCase="'date'">
+          <ion-item >
+            <ion-label color="dark"  *ngIf="field.required"  floating >{{field.label}}** </ion-label>
+            <ion-label color="dark"  *ngIf="!field.required"  floating icon-rigth>{{field.label}} <ion-icon name="calendar"></ion-icon></ion-label>
+            <ion-datetime displayFormat="MM/DD/YYYY" [formControlName]="field.name"></ion-datetime>
+          </ion-item>
+        </div>
+        <!--time -->
+        <div *ngSwitchCase="'time'" class="separador">
+          <ion-item >
+            <ion-label color="dark"  *ngIf="field.required"  floating icon-left>{{field.label}}**</ion-label>
+            <ion-label color="dark"  *ngIf="!field.required"  floating icon-left>{{field.label}}</ion-label>
+            <ion-datetime displayFormat="hh:mm a" [formControlName]="field.name"></ion-datetime>
+          </ion-item>
+        </div>
+        <!--radio-->
+        <ion-list *ngSwitchCase="'radio'" [formControlName]="field.name" radio-group class="separador">
+          <ion-label color="dark"  *ngIf="field.required">{{field.label}}**</ion-label>
+          <ion-label color="dark"  *ngIf="!field.required">{{field.label}}</ion-label>
+          
+          <ion-item *ngFor="let val of field.values">
+            <ion-label>{{val}}</ion-label>
+            <ion-radio [value]="val" ></ion-radio>
+          </ion-item>
+        </ion-list>
+        <!--checkbox-->
+        <ion-item-group *ngSwitchCase="'checkbox'" [formGroupName]="field.name">
+          <ion-item-divider color="light">
+            <ion-label color="dark"  *ngIf="field.required">{{field.label}}**</ion-label>
+            <ion-label color="dark"  *ngIf="!field.required">{{field.label}}</ion-label>
+          </ion-item-divider>
+          <ion-item *ngFor="let val of field.values">
+            <ion-label>{{val}}</ion-label>
+            <ion-checkbox [formControlName]="val"></ion-checkbox>
+          </ion-item>
+        </ion-item-group>
+        <!--<ion-list *ngSwitchCase="'checkbox'" class="separador"  [formControlName]="field.name">
+          <ion-label color="dark"  *ngIf="field.required">{{field.label}}**</ion-label>
+          <ion-label color="dark"  *ngIf="!field.required">{{field.label}}</ion-label>
+          <ion-item *ngFor="let val of field.values">
+            <ion-label>{{val}}</ion-label>
+            <ion-checkbox ></ion-checkbox>
+          </ion-item>
+        </ion-list>-->
+
+
+      </div>
+      
+      <ion-item>
+        <button [disabled] = "!form.valid" ion-button full (click)="send()">Enviar</button>
+      </ion-item>
+    </form>
+    
+  </ion-card-content>
+</ion-card>
+<button ion-button (click)="getFields()" full> REFRESCAR </button>
+
+
+
+

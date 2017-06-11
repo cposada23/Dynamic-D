@@ -18,16 +18,16 @@ export class DynamicForm  implements OnInit {
   fields: Array<Object>;
   form: FormGroup;
   loading:any;
+  error: string = "Internet";
   constructor(private formBuilder: FormBuilder, private loadingController:LoadingController, private requestService: RequestService) { 
     
   }
 
   ngOnInit(): void {
-      this.fields = this.requestService.getFields();
-      this.form = this.toFormmGroup(this.fields);
+      this.getFields();
   }
 
-  toFormmGroup(fields:Array<Object>){
+  toFormGroup(fields:Array<Object>){
     let group = {};
     fields.forEach(field => {
       if(field['type']!=='checkbox'){
@@ -47,10 +47,16 @@ export class DynamicForm  implements OnInit {
 
    getFields() {
     this.presentLoading();
-    setTimeout(()=>{
-      this.fields = this.requestService.getFields();
+    this.requestService.getFields().subscribe(fields => {
+      console.log("fields", fields);
+      this.fields = fields;
+      this.form = this.toFormGroup(this.fields);
+      this.error = 'none';
       this.loading.dismiss();
-    },1000);
+    }, Error=> {
+      this.error = "Internet";
+      this.loading.dismiss();
+    });
   }
 
   send(){
